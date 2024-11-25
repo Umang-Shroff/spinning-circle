@@ -31,42 +31,26 @@
         let angle = 0;
  
         centerDiv.addEventListener('mouseenter', () => {
-            centerDiv.textContent = "Click";
+            centerDiv.textContent = "Hover";
             resultDiv.textContent = "";
             const rotateInterval = setInterval(() => {
                 angle += 5; 
                 pieDiv.style.transform = `rotate(${angle}deg)`;
-                centerDiv.style.transform = `rotate(-${angle}deg)`;
                 
-            }, 9);  
-
-            centerDiv.addEventListener('click', () => {
-                clearInterval(rotateInterval);
- 
-                const colorAt90 = getColorAtAngle(angle);
-
-                centerDiv.textContent = "Hover";
-                resultDiv.textContent = `Color : ${colorAt90}`;
-            });
+            }, 9); 
  
             centerDiv.addEventListener('mouseleave', () => {
                 centerDiv.textContent = "Hover";
                 clearInterval(rotateInterval);  
+                const antiRotateInterval = setInterval(()=>{
+                    if(angle<=0){
+                        clearInterval(antiRotateInterval)
+                    }
+                    angle-=10;
+                    pieDiv.style.transform =  `rotate(-${angle}deg)`;
+                }, 9)
             });
         });
- 
-        function getColorAtAngle(angle) {
-            const normalizedAngle = angle % 360;  
-            if (normalizedAngle >= 0 && normalizedAngle < 90) {
-                return "Yellow";
-            } else if (normalizedAngle >= 90 && normalizedAngle < 180) {
-                return "Blue";
-            } else if (normalizedAngle >= 180 && normalizedAngle < 270) {
-                return "Green";
-            } else {
-                return "Red";
-            }
-        }
     </script>
 
 </body>
